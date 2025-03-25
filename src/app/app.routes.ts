@@ -16,16 +16,21 @@ import { SkillComponent } from './features/about/skill/skill.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, },
-    { path: 'signup', component: SignupComponent },
-    { path: 'login', component: LoginComponent },
+    {
+        path: 'signup',
+        loadComponent: () => import(`./features/signup/signup.component`)
+            .then(a => a.SignupComponent)
+    },
+    {
+        path: 'login',
+        loadComponent: () => import(`./features/login/login.component`)
+            .then(a => a.LoginComponent)
+    },
 
     {
-        path: 'contact', component: ContactComponent,
-        children: [
-            { path: 'mailing', component: MailingComponent },
-            { path: 'mapping', component: MappingComponent },
-            { path: 'website', component: WebsiteComponent }
-        ]
+        path: 'contact',
+        loadChildren: () => import('./features/contact/contact.routes')
+            .then(children => children.routes)
     },
     {
         path: 'about', component: AboutComponent,
